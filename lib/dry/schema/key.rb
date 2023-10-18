@@ -108,7 +108,7 @@ module Dry
 
         def write(source, target)
           read(source) { |value|
-            target[coerced_name] = value.is_a?(::Hash) ? members.write(value) : value
+          target[coerced_name] = value.is_a?(::Hash) && members.keys.map(&:name) != ['*'] ? members.write(value) : value
           }
         end
 

@@ -39,6 +39,25 @@ RSpec.describe "Macros #hash" do
     end
   end
 
+  context "with no schema for hash" do
+    let(:input) do
+      {foo: {a: 'valid', b: 'also valid'}, bar: "just string"}
+    end
+
+    subject(:schema) do
+      Dry::Schema.define do
+        config.validate_keys = true
+
+        required(:foo).value(:hash)
+        required(:bar).value(:string)
+      end
+    end
+
+    it "is successful" do
+      expect(result).to be_successful
+    end
+  end
+
   context "with hash schema" do
     let(:hash_schema) do
       Types::Hash.schema(name: "string")

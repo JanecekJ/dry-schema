@@ -482,6 +482,8 @@ module Dry
           key_spec(name, type.right)
         elsif type.respond_to?(:type)
           key_spec(name, type.type)
+        elsif type.class == Dry::Types::Hash
+          {name => '*'}
         else
           name
         end

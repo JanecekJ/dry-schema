@@ -52,7 +52,11 @@ module Dry
 
       # @api private
       def paths_match?(input_path, key_path)
-        residue = key_path.sub(input_path, "")
+        residue = if input_path.include?(".") && key_path.end_with?(".*")
+          "" if input_path.sub(key_path.sub(".*", ""), "").start_with?('.')
+        else
+          key_path.sub(input_path, "")
+        end
         residue.empty? || residue.start_with?(DOT, BRACKETS)
       end
 
